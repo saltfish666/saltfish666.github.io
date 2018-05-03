@@ -1,1 +1,44 @@
-<h1>hello world!<h1>
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Future</title>
+    <meta name="viewport" content="initial-scale=1,width=device-width"/> 
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/header.css">
+	<link rel=stylesheet href="css/container.css">
+	<!--<link rel="stylesheet" href="css/icon.css">-->
+	<link rel="stylesheet" href="css/btn.css">
+</head>
+<body>
+    <header>
+        <img src="img/if_facebook__social__media_icon_2986194.svg" alt="Amazing line art of a scone" class="img-responsive"/>
+        <a href="Login/login.html" class="ListItem" target="_blank">登录/注册</a>
+        <a href="Edit/edit.html" class="ListItem" target="_blank">发帖</a>
+    </header>
+
+	<div class="container" id="blogsList">
+
+		<div class="mypanel" v-for="blog in blogs">
+			<header class="mypanel-title">
+				<h3 >{{blog.title}} </h3>
+			</header>
+			<!--<div class="mypanel-author">
+				<h3 class="mypanel-title">查拉图斯</h3>
+			</div>-->
+			<main class="mypanel-body">
+				{{blog.body}}
+			</main>
+			<footer>
+				<button class="btn">👍</button>
+			</footer>
+		</div>
+
+	</div>
+
+    <script src="https://cdn.bootcss.com/jquery/3.3.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <script type="text/javascript" src="js/initBlogsList.js"></script>
+</body>
+</html>

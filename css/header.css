@@ -1,0 +1,50 @@
+/*适应大屏幕*/
+
+/*整体布局*/
+body > header {
+        background-color:white;
+        font-family: 'Oswald', sans-serif;
+        font-size: 1rem;
+        min-height: 2.75rem;
+        display: flex;
+        align-items: center;
+    	padding: 0 10%;
+	    flex-direction: row;
+	    box-shadow: 1px 1px 1px #888888;
+	    /*flex-direction: column;*/
+}/*给每个css背景色，这样他不会受到默认颜色的影响，更有独立性！！*/
+
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+
+/*每个导航的样式*/
+body > header a{
+	text-decoration:none;
+	color: gray;
+    text-decoration: none;
+    text-shadow:  1px 1px 1px black;
+}
+
+body > header img{
+	/*height: 30px;为什么设置宽度没用？*/
+	width: 50px
+}
+
+
+/*导航链接的布局*/
+ body > header a:nth-child(2){
+        margin-left: 50%;
+}
+
+ body > header a:nth-last-child(1){
+	 float: left;
+        margin-left:15%;
+}
+
+body > header a:nth-last-child(2){
+	margin-left: 30px;
+}
