@@ -11,11 +11,12 @@
 	<link rel="stylesheet" href="css/btn.css">
 </head>
 <body>
-    <header>
+    <header >
         <img src="img/if_facebook__social__media_icon_2986194.svg" alt="Amazing line art of a scone" class="img-responsive"/>
-        <a href="Login/login.html" class="ListItem" target="_blank">登录/注册</a>
+        <a href="Login/login.html" class="ListItem" target="_blank" id="login">登录/注册</a>
         <a href="Edit/edit.html" class="ListItem" target="_blank">发帖</a>
     </header>
+
 
 	<div class="container" id="blogsList">
 
@@ -56,6 +57,21 @@
             //如果token有值，说明用户是用GitHub登录后重定向到首页的
             //将token存储在localStorage方便其他页面使用
             localStorage.token = token
+        }
+        //如果用户处于登录状态，则修改header
+        if(localStorage.token){
+            $.ajax({
+                url: "https://api.github.com/user",
+                type: 'get',
+                data: {
+                    access_token:"d96058014f26cb713b43ff8ee9ebf7d5bf4ebb2c",
+                },
+                success:  function (data) {
+                    let login = document.getElementById("login")
+                    login.innerHTML = data.name
+                }
+            });
+
         }
 
     </script>
