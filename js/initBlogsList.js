@@ -10,7 +10,7 @@
 
 
 var issues = "/repos/lishuai666777/program/issues"
-var access_token = "9a66eff64b3e77c21fddcdc4aedbd7ecf22983d1"
+var access_token = localStorage.token
 
 base_url = "https://api.github.com"
 var labels = ""

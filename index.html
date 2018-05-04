@@ -35,10 +35,35 @@
 		</div>
 
 	</div>
+    <script>
+        /*
+        * https://www.jianshu.com/p/073f79c5e438
+        * 正则表达式获得url中的token
+        * */
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+        var token = getQueryString("token")
+        if(token == undefined || localStorage.token == undefined){
+            //说明用户是直接访问首页并且之前没有登陆过
+        }else {
+            //如果token有值，说明用户是用GitHub登录后重定向到首页的
+            //将token存储在localStorage方便其他页面使用
+            localStorage.token = token
+        }
+
+    </script>
 
     <script src="https://cdn.bootcss.com/jquery/3.3.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
     <script type="text/javascript" src="js/initBlogsList.js"></script>
+
 </body>
 </html>
