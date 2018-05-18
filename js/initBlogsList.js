@@ -8,37 +8,6 @@
 
 
 
-
-var issues = "/repos/lishuai666777/program/issues"
-var access_token = localStorage.token
-
-base_url = "https://api.github.com"
-var labels = ""
-var creator = "saltfish666"
-
-var blogs;
-$.ajax({
-    url: base_url+issues,
-    type: 'get',
-    data: {
-        access_token:access_token,
-        labels:"",
-        /*creator:""*/
-    },
-    success:  function (data) {
-        blogs = data
-        console.log(data)
-
-        var blogsListApp = new Vue({
-            el:"#blogsList",
-            data:{
-                blogs:blogs,
-            },
-        })
-    }
-});
-
-
 // 获得最近的 10 个issue
 let query2 = `{
                   repository(owner: "lishuai666777", name: "program") {
