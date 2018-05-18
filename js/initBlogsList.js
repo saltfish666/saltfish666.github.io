@@ -56,7 +56,6 @@ $.ajax({
                                  </main>
                                  <footer>
                                      <button class="btn">👍</button>
-                                     <p>number {{node.number}}</p>
                                  </footer>
                                </div>`      +    blogsListInnerHTML
         }
