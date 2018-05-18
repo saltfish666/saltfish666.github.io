@@ -32,14 +32,35 @@ $.ajax({
         query: query2
     }) ,
     success:  function (data) {
-        console.log(data)
-        var nodes = data.data.repository.issues.nodes
 
+        var nodes = data.data.repository.issues.nodes
+        console.log(nodes)
+        /*
         var blogsListApp = new Vue({
             el:"#blogsList",
             data:{
                 nodes:nodes,
             },
-        })
+        })*/
+        var blogsListInnerHTML = ``
+        for (let i = 0; i<nodes.length; i++ ){
+        blogsListInnerHTML = `<div class="mypanel" v-for="node in nodes">
+                                 <header class="mypanel-title">
+                                    <h3 >${nodes[i].title} </h3>
+                                 </header>
+                                 <!--<div class="mypanel-author">
+                                    <h3 class="mypanel-title">查拉图斯</h3>
+                                    </div>-->
+                                 <main class="mypanel-body" >
+                                    ${nodes[i].bodyHTML}
+                                 </main>
+                                 <footer>
+                                     <button class="btn">👍</button>
+                                     <p>number {{node.number}}</p>
+                                 </footer>
+                               </div>`      +    blogsListInnerHTML
+        }
+        var blogsList = document.getElementById("#blogsList")
+        blogsList.innerHTML = blogsListInnerHTML
     }
 });
