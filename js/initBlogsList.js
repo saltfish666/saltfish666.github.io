@@ -28,14 +28,7 @@ $.ajax({
     success:  function (data) {
         blogs = data
         console.log(data)
-        /*var blogsList = document.getElementById("blogsList")
 
-        for(let i = 0;i<data.length;i++){
-            let element = document.createElement("div")
-            element.innerHTML=data[i]["body"]
-            console.log(element)
-            blogsList.appendChild(element)
-        }*/
         var blogsListApp = new Vue({
             el:"#blogsList",
             data:{
@@ -46,3 +39,38 @@ $.ajax({
 });
 
 
+// 获得最近的 10 个issue
+let query2 = `{
+                  repository(owner: "lishuai666777", name: "program") {
+                    issues(last:10){
+                      nodes{
+                        title
+                        bodyHTML
+                        id
+                        number
+                      }
+                    }
+                  }
+                }`
+
+$.ajax({
+    url: "https://api.github.com/graphql",
+    type: 'post',
+    beforeSend: function(xhr) {
+        xhr.setRequestHeader("Authorization","token " + localStorage.token);
+    },
+    data: JSON.stringify({
+        query: query2
+    }) ,
+    success:  function (data) {
+        console.log(data)
+        var nodes = data.data.repository.issues.nodes
+
+        var blogsListApp = new Vue({
+            el:"#blogsList",
+            data:{
+                nodes:nodes,
+            },
+        })
+    }
+});
