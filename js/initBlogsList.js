@@ -60,7 +60,7 @@ $.ajax({
                                  </footer>
                                </div>`      +    blogsListInnerHTML
         }
-        var blogsList = document.getElementById("#blogsList")
+        var blogsList = document.getElementById("blogsList")
         blogsList.innerHTML = blogsListInnerHTML
     }
 });
