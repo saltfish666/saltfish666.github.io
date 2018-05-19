@@ -145,8 +145,7 @@
                 var blogsListInnerHTML = ``
                 for (let i = 0; i<nodes.length; i++ ){
 
-                    titleLink = `https://saltfish666.github.io/article.html?repositoryOwner=${localStorage._repositoryOwner}
-                                                                            &repositoryName=${localStorage._repositoryName}&issueNum=${nodes[i].number}`
+                    titleLink = `https://saltfish666.github.io/article.html?repositoryOwner=${localStorage._repositoryOwner}&repositoryName=${localStorage._repositoryName}&issueNum=${nodes[i].number}`
 
                     blogsListInnerHTML = `<div class="mypanel" v-for="node in nodes">
                                              <header class="mypanel-title">
