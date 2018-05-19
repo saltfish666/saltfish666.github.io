@@ -15,7 +15,11 @@ $("#submit").click(function(){
 
     let access_token = localStorage._token
     let base_url = "https://api.github.com"
-    let posturl = "/repos/gitblog666/program/issues"
+
+    let repositoryOwner = "gitblog666"
+    let repositoryName = "program"
+
+    let posturl = `/repos/${repository}/${repositoryName}/issues`
     $.ajax({
         url: base_url+posturl,
         type: 'post',
@@ -27,7 +31,8 @@ $("#submit").click(function(){
             body:body,
         }),
         success:  function (data) {
-            alert("成功发出")
+            //alert("成功发出")
+            window.location.href=titleLink = `https://saltfish666.github.io/article.html?repositoryOwner=${repositoryOwner}&repositoryName=${repositoryName}&issueNum=${data.number}`
             canSubmit = true
         }
     });

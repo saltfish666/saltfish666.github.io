@@ -45,7 +45,7 @@ $.ajax({
         var blogsListInnerHTML = ``
         for (let i = 0; i<nodes.length; i++ ){
 
-            titleLink = `https://saltfish666.github.io/article.html?repository=gitblog666&repositoryName=program&issueNum=${nodes[i].number}`
+            titleLink = `https://saltfish666.github.io/article.html?repositoryOwner=gitblog666&repositoryName=program&issueNum=${nodes[i].number}`
             blogsListInnerHTML = `<div class="mypanel" v-for="node in nodes">
                                      <header class="mypanel-title">
                                         <a href="${titleLink}" target="_blank"><h3 >${nodes[i].title} </h3></a>

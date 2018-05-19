@@ -81,12 +81,12 @@
         }
         return null;
     }
-    let repository = getQueryString("repository")
+    let repositoryOwner = getQueryString("repositoryOwner")
     let repositoryName = getQueryString("repositoryName")
     let issueNum = getQueryString("issueNum")
 
     let query2 = `{
-                  repository(owner: "${repository}", name: "${repositoryName}") {
+                  repository(owner: "${repositoryOwner}", name: "${repositoryName}") {
                     issue(number: 1) {
                       title
                       bodyHTML
