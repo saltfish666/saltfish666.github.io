@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="css/header.css">
     <link rel=stylesheet href="css/container.css">
     <link rel="stylesheet" href="css/btn.css">
+    <style>
+        #comments{
+            border-style: solid;
+            border-width: 1px;
+            border-color: #888888;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -82,6 +89,9 @@
                       bodyHTML
                       comments(last: 10) {
                         nodes {
+                          author{
+                               login
+                              }
                           bodyHTML
                         }
                       }
@@ -109,7 +119,9 @@
 
             let commentsHTML = ''
             for (let i = 0; i<data.data.repository.issue.comments.nodes.length; i++ ){
-                commentsHTML = `<div class="comment">${ data.data.repository.issue.comments.nodes[i].bodyHTML}</div>` + commentsHTML
+                commentsHTML = `<div class="comment">
+                                     <h3>${data.data.repository.issue.comments.nodes[i].author.login} says:</h3>
+                                        ${ data.data.repository.issue.comments.nodes[i].bodyHTML}</div><br>` + commentsHTML
             }
             var comments = document.getElementById("comments")
             comments.innerHTML = commentsHTML
