@@ -54,25 +54,26 @@
             return null;
         }
         var token = getQueryString("token")
-        if(token == undefined && localStorage.token == undefined){
+        if(token == undefined && localStorage._token == undefined){
             //说明用户是直接访问首页并且之前没有登陆过
         }else if(token) {
             //如果token有值，说明用户是用GitHub登录后重定向到首页的
             //将token存储在localStorage方便其他页面使用
-            localStorage.token = token
+            localStorage._token = token
         }
         //如果用户处于登录状态，则修改header
-        if(localStorage.token){
+        if(localStorage._token){
             $.ajax({
                 url: "https://api.github.com/user",
                 type: 'get',
                 data: {
-                    access_token:localStorage.token,
+                    access_token:localStorage._token,
                 },
                 success:  function (data) {
                     let header = document.getElementById("header")
                     header.innerHTML = `<img src="${data.avatar_url}" class="img-responsive"/>
-                                           <a href="${data.html_url}" class="ListItem" target="_blank" >${data.login}</a>`
+                                           <a href="${data.html_url}" class="ListItem" target="_blank" >${data.login}</a>
+                                            <button id="logOut">退出登录</button>`
                     console.log(data)
                 }
             });
@@ -81,6 +82,13 @@
 
     </script>
     <script type="text/javascript" src="js/initBlogsList.js"></script>
+<script>
+    document.getElementById("logOut").onclick = function () {
+        localStorage._token = ''
+        location.reload();
+
+    }
+</script>
 
 </body>
 </html>

@@ -11,8 +11,8 @@
     <style>
         #comments{
             border-style: solid;
-            border-width: 1px;
-            border-color: #888888;
+            border-width: 0.3px;
+            border-color: #ccccff;
         }
     </style>
 </head>
@@ -48,12 +48,12 @@
 
 <script>
     //如果用户处于登录状态，则修改header
-    if(localStorage.token){
+    if(localStorage._token){
         $.ajax({
             url: "https://api.github.com/user",
             type: 'get',
             data: {
-                access_token:localStorage.token,
+                access_token:localStorage._token,
             },
             success:  function (data) {
                 let header = document.getElementById("header")
@@ -103,7 +103,7 @@
         url: "https://api.github.com/graphql",
         type: 'post',
         beforeSend: function(xhr) {
-            xhr.setRequestHeader("Authorization","token " + localStorage.token);
+            xhr.setRequestHeader("Authorization","token " + localStorage._token);
         },
         data: JSON.stringify({
             query: query2

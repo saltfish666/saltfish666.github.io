@@ -26,7 +26,7 @@ $.ajax({
     url: "https://api.github.com/graphql",
     type: 'post',
     beforeSend: function(xhr) {
-        xhr.setRequestHeader("Authorization","token " + localStorage.token);
+        xhr.setRequestHeader("Authorization","token " + localStorage._token);
     },
     data: JSON.stringify({
         query: query2
