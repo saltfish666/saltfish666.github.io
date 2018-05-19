@@ -49,6 +49,15 @@ body > header a:nth-last-child(2){
 	margin-left: 30px;
 }
 
+/*
+#header{
+    margin-right: 0px;
+}
+
 #logOut{
     margin-right: 50px;
+}*/
+
+#logOut{
+    margin-left: 50px;
 }
