@@ -113,6 +113,9 @@
     </script>
 
     <script>
+        //这步是保证修改issue也会预览markdownHTML
+        document.getElementById('markdownHTML').innerHTML =
+            marked(document.getElementById("markdownText").value);
         //将 markdown转化为HTML
         document.getElementById("markdownText").onkeyup = function () {
             document.getElementById('markdownHTML').innerHTML =
