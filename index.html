@@ -37,23 +37,37 @@
 		</div>-->
 
 	</div>
+    <script>
+        var conf = {
+            repositoryOwner:"gitblog666",
+            repositoryName:"program",
+            client_id:"66212aa2c8c2293b9020",
+            token:""
+        }
+        function initConf(conf){
+            localStorage._repositoryOwner = conf.repositoryOwner
+            localStorage._repositoryName  = conf.repositoryName
+            localStorage._client_id       = conf.client_id
+            localStorage._token           = conf.token
+        }
+        initConf()
+    </script>
     <script src="/js/static/jquery.js"></script>
-<!--    <script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
     <script>
         /*
         * https://www.jianshu.com/p/073f79c5e438
         * 正则表达式获得url中的token
         * */
         function getQueryString(name) {
-            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-            var r = window.location.search.substr(1).match(reg);
+            let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            let r = window.location.search.substr(1).match(reg);
 
             if (r != null) {
                 return unescape(r[2]);
             }
             return null;
         }
-        var token = getQueryString("token")
+        let token = getQueryString("token")
         if(token == undefined && localStorage._token == undefined){
             //说明用户是直接访问首页并且之前没有登陆过
         }else if(token) {
@@ -61,6 +75,10 @@
             //将token存储在localStorage方便其他页面使用
             localStorage._token = token
         }
+
+        // 存储一下 header中的HTML，留作退出登录使用
+        let headerHTML = document.getElementById("header").innerHTML
+
         //如果用户处于登录状态，则修改header
         if(localStorage._token){
             $.ajax({
@@ -70,24 +88,84 @@
                     access_token:localStorage._token,
                 },
                 success:  function (data) {
+
                     let header = document.getElementById("header")
+
                     header.innerHTML = `<img src="${data.avatar_url}" class="img-responsive"/>
-                                           <a href="${data.html_url}" class="ListItem" target="_blank" >${data.login}</a>
-                                           <a href="/Edit/edit.html" class="ListItem" target="_blank" >写博客</a>
-                                            <button id="logOut">退出登录</button>`
-                    console.log(data)
+                                        <a href="${data.html_url}" class="ListItem" target="_blank" >${data.login}</a>
+                                        <a href="/Edit/edit.html" class="ListItem" target="_blank" >写博客</a>
+                                        <button id="logOut">退出登录</button>`
+
                     document.getElementById("logOut").onclick = function () {
                         localStorage._token = ''
-                        location.reload();
+                        document.getElementById("header").innerHTML = headerHTML
 
                     }
                 }
             });
-
         }
 
     </script>
-    <script type="text/javascript" src="js/initBlogsList.js"></script>
+    <script>
+        // 获得最近的 10 个issue 并将它们渲染到页面
+        let issuesCount = 10
+        let query = `{
+                  repository(owner: "${localStorage._repositoryOwner}", name: "${localStorage._repositoryName}") {
+                    issues(last:${issuesCount}){
+                      nodes{
+                        title
+                        bodyHTML
+                        id
+                        number
+                      }
+                    }
+                  }
+                }`
+
+        $.ajax({
+            url: "https://api.github.com/graphql",
+            type: 'post',
+            beforeSend: function(xhr) {
+                if(localStorage._token) {
+                    xhr.setRequestHeader("Authorization", "token " + localStorage._token);
+                }
+            },
+            data: JSON.stringify({
+                query: query
+            }) ,
+            success:  function (data) {
+
+                //还要修改，分为次数限制、访问权限等
+                if(!data.data.repository){
+                    alert("因为githubAPI限制，你必须登录后使用")
+                }
+
+                let nodes = data.data.repository.issues.nodes
+
+                var blogsListInnerHTML = ``
+                for (let i = 0; i<nodes.length; i++ ){
+
+                    titleLink = `https://saltfish666.github.io/article.html?repositoryOwner=${localStorage._repositoryOwner}
+                                                                            &repositoryName=${localStorage._repositoryName}&issueNum=${nodes[i].number}`
+
+                    blogsListInnerHTML = `<div class="mypanel" v-for="node in nodes">
+                                             <header class="mypanel-title">
+                                                <a href="${titleLink}" target="_blank"><h3 >${nodes[i].title} </h3></a>
+                                             </header>
+
+                                             <main class="mypanel-body" >
+                                                ${nodes[i].bodyHTML}
+                                             </main>
+
+                                             <footer>
+                                                 <button class="btn">👍</button>
+                                             </footer>
+                                           </div>`      +    blogsListInnerHTML
+                }
+                document.getElementById("blogsList").innerHTML = blogsListInnerHTML
+            }
+        });
+    </script>
 
 
 </body>

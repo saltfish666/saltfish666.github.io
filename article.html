@@ -31,7 +31,6 @@
         <div class="mypanel">
             <header class="mypanel-title">
                 <h3 id="issueTitle">加载中 </h3>
-                <span id="edit"></span>
             </header>
             <!--<div class="mypanel-author">
                 <h3 class="mypanel-title">查拉图斯</h3>
@@ -39,9 +38,10 @@
             <main class="mypanel-body" id="issueBody">
                 加载中。。。
             </main>
+            <div id="edit"></div>
             <div id="postComment">
                 <textarea id="newComment" style="height: 150px;width: 100%"></textarea>
-                <button style="display: block" onclick="postComment()">提交评论</button>
+                <button style="display: block" onclick="postComment()" id="postCommentBtn">提交评论</button>
             </div>
             <div id = "comments">
                 还在加载中。。
@@ -53,21 +53,21 @@
 <script src="/js/static/jquery.js"></script>
 <script>
 
+    //如果用户处于登录状态，则修改header
     if(localStorage._token){
         $.ajax({
             url: "https://api.github.com/user",
             type: 'get',
             data: {
-                access_token:localStorage._token,
+                access_token:localStorage.token,
             },
             success:  function (data) {
                 let header = document.getElementById("header")
                 header.innerHTML = `<img src="${data.avatar_url}" class="img-responsive"/>
-                                           <a href="${data.html_url}" class="ListItem" target="_blank" >${data.login}</a>`
-                console.log(data)
+                                    <a href="${data.html_url}" class="ListItem" target="_blank" >${data.login}</a>
+                                    <a href="/Edit/edit.html" class="ListItem" target="_blank" >写博客</a>`
             }
         });
-
     }
 
 </script>
@@ -86,9 +86,9 @@
     let repositoryName = getQueryString("repositoryName")
     let issueNum = getQueryString("issueNum")
 
-    document.getElementById("edit").innerHTML = `<a target="_blank" href="Edit/edit.html?repositoryOwner=${repositoryOwner}&repositoryName=${repositoryName}&issueNum=${issueNum}">修改</a>`
+    document.getElementById("edit").innerHTML = `<a target="_blank" href="Edit/edit.html?repositoryOwner=${repositoryOwner}&repositoryName=${repositoryName}&issueNum=${issueNum}">修改文章</a>`
 
-    let query2 = `{
+    let query = `{
                   repository(owner: "${repositoryOwner}", name: "${repositoryName}") {
                     issue(number: ${issueNum}) {
                       title
@@ -112,15 +112,12 @@
             xhr.setRequestHeader("Authorization","token " + localStorage._token);
         },
         data: JSON.stringify({
-            query: query2
+            query: query
         }) ,
         success:  function (data) {
 
             // issue 的body title
-            let issueBodyHTML = data.data.repository.issue.bodyHTML
-            console.log(issueBodyHTML)
-            document.getElementById("issueBody").innerHTML = issueBodyHTML
-
+            document.getElementById("issueBody").innerHTML = data.data.repository.issue.bodyHTML
             document.getElementById("issueTitle").innerHTML = data.data.repository.issue.title
 
             let commentsHTML = ''
@@ -129,24 +126,21 @@
                                      <h3>${data.data.repository.issue.comments.nodes[i].author.login} says:</h3>
                                         ${ data.data.repository.issue.comments.nodes[i].bodyHTML}</div></br>` + commentsHTML
             }
-            var comments = document.getElementById("comments")
-            comments.innerHTML = commentsHTML
+            document.getElementById("comments").innerHTML = commentsHTML
         }
     });
 
 </script>
 
 <script>
-    let canPostComment = true
     function postComment(){
-        if(canPostComment == false){
-            return
-        }
-        canPostComment = false
+
+        document.getElementById("postCommentBtn").disabled=true;
+
         let commentText = document.getElementById("newComment").value
         document.getElementById("newComment").value = ''
         $.ajax({
-            url: `https://api.github.com/repos/${repository}/${repositoryName}/issues/${issueNum}/comments`,
+            url: `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/issues/${issueNum}/comments`,
             type: 'post',
             beforeSend: function(xhr) {
                 xhr.setRequestHeader("Authorization","token " + localStorage._token);

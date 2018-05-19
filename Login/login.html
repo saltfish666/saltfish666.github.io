@@ -25,7 +25,7 @@
 </style>
 <body>
 
-<div class="container">
+<div class="container" id="container">
    <!-- <form>
         <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
@@ -43,7 +43,19 @@
         <button type="submit" class="btn btn-default">LogIn</button>
         <button type="submit" class="btn btn-default">SignIn</button>
     </form>-->
-    <a target="_blank" href="https://github.com/login/oauth/authorize?client_id=66212aa2c8c2293b9020&scope=public_repo">login with github</a>
+
+
+
 </div>
+
+<script>
+    //动态写入主要是为了利用 localStorage._client_id 让内容更有弹性
+    document.getElementById("container").innerHTML = `
+                    <a target="_blank" href="https://github.com/login/oauth/authorize?client_id=${localStorage._client_id}">用GitHub只读权限登录</a>
+                    <a target="_blank" href="https://github.com/login/oauth/authorize?client_id=${localStorage._client_id}&scope=public_repo">用GitHub读写权限登录</a>
+                    <p style="margin-left:35%; margin-top: 30px ">如果你打算发表评论，必须用读写权限登录</p>`
+
+</script>
+
 </body>
 </html>

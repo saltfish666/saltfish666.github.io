@@ -14,6 +14,7 @@
         height: 20px;
     }
 </style>
+<!--还要改，repo Name 等应该尽量从url中获取-->
 <body>
 
 <header id="header">
@@ -25,7 +26,7 @@
 
 <div class="container">
 
-        <!-- 下面三个id用于js、css，后续改动不可以修改id  -->
+        <!-- 下面几个id用于js、css，后续改动不可以修改id  -->
         <input type="" name="" id="title">
         <textarea  id = "markdownText"></textarea>
         <button type="submit" class="btn btn-default" id="submit">Submit</button>
@@ -35,7 +36,7 @@
 
     <script>
         //如果用户处于登录状态，则修改header
-        if(localStorage.token){
+        if(localStorage._token){
             $.ajax({
                 url: "https://api.github.com/user",
                 type: 'get',
@@ -45,11 +46,10 @@
                 success:  function (data) {
                     let header = document.getElementById("header")
                     header.innerHTML = `<img src="${data.avatar_url}" class="img-responsive"/>
-                                           <a href="${data.html_url}" class="ListItem" target="_blank" >${data.login}</a>`
-                    console.log(data)
+                                        <a href="${data.html_url}" class="ListItem" target="_blank" >${data.login}</a>
+                                        <a href="/Edit/edit.html" class="ListItem" target="_blank" >写博客</a>`
                 }
             });
-
         }
     </script>
 
@@ -68,10 +68,11 @@
     </script>
 
     <script>
-        //如果issueNum存在，则填写title和body
+        // 如果issueNum存在，则填写title和body
+        // 同时，repositoryName 等参数由url获取
         if(issueNum) {
-            let repositoryName = getQueryString("repositoryName")
-            let repositoryOwner = getQueryString("repositoryOwner")
+            var repositoryName = getQueryString("repositoryName")
+            var repositoryOwner = getQueryString("repositoryOwner")
             let query = `{
                   repository(owner: "${repositoryOwner}", name: "${repositoryName}") {
                     issue(number: ${issueNum}) {
@@ -84,7 +85,9 @@
                 url: "https://api.github.com/graphql",
                 type: 'post',
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "token " + localStorage._token);
+                    if(localStorage._token) {
+                        xhr.setRequestHeader("Authorization", "token " + localStorage._token);
+                    }
                 },
                 data: JSON.stringify({
                     query: query
@@ -92,17 +95,7 @@
                 success: function (data) {
 
                     document.getElementById("title").value = data.data.repository.issue.title
-
                     document.getElementById("markdownText").value = data.data.repository.issue.body
-
-                    let commentsHTML = ''
-                    for (let i = 0; i < data.data.repository.issue.comments.nodes.length; i++) {
-                        commentsHTML = `<div class="comment">
-                                     <h3>${data.data.repository.issue.comments.nodes[i].author.login} says:</h3>
-                                        ${ data.data.repository.issue.comments.nodes[i].bodyHTML}</div></br>` + commentsHTML
-                    }
-                    var comments = document.getElementById("comments")
-                    comments.innerHTML = commentsHTML
                 }
             });
         }
@@ -113,9 +106,10 @@
     </script>
 
     <script>
-        //这步是保证修改issue也会预览markdownHTML
+        //这步是保证初次加载页面也会预览markdownHTML
         document.getElementById('markdownHTML').innerHTML =
             marked(document.getElementById("markdownText").value);
+
         //将 markdown转化为HTML
         document.getElementById("markdownText").onkeyup = function () {
             document.getElementById('markdownHTML').innerHTML =
@@ -123,7 +117,65 @@
         }
     </script>
 
-    <script type="text/javascript" src="postIssue.js"></script>
+    <script type="text/javascript" src="postIssue.js">
+
+        $("#submit").click(function(){
+
+            document.getElementById("submit").disabled=true;
+
+            let title = document.getElementById("title").value
+            let body  = document.getElementById("markdownText").value
+
+            if(issueNum){
+                $.ajax({
+                    url: `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/issues/${issueNum}`,
+                    type: 'patch',
+                    beforeSend: function(xhr) {
+                        if(localStorage._token) {
+                            xhr.setRequestHeader("Authorization", "token " + localStorage._token);
+                        }else {
+                            alert("你必须登录才能使用此功能")
+                        }
+                    },
+                    data:  JSON.stringify({
+                        title:title,
+                        body:body,
+                    }),
+                    success:  function (data) {
+
+                        //防止浏览器记忆已提交的信息
+                        document.getElementById("title").value = ''
+                        document.getElementById("markdownText").value = ''
+
+                        window.location.href = `https://saltfish666.github.io/article.html?repositoryOwner=${repositoryOwner}&repositoryName=${repositoryName}&issueNum=${data.number}`
+                    }
+                });
+            }else {
+                // 这里是创建issue，所以repositoryName等参数用localStorage里面的
+                $.ajax({
+                    url: `https://api.github.com/repos/${localStorage._repositoryOwner}/${localStorage._repositoryName}/issues`,
+                    type: 'post',
+                    beforeSend: function (xhr) {
+                        if(localStorage._token) {
+                            xhr.setRequestHeader("Authorization", "token " + localStorage._token);
+                        }else {
+                            alert("你必须登录才能使用此功能")
+                        }
+                    },
+                    data: JSON.stringify({
+                        title: title,
+                        body: body,
+                    }),
+                    success: function (data) {
+                        document.getElementById("title").value = ''
+                        document.getElementById("markdownText").value = ''
+                        window.location.href = titleLink = `https://saltfish666.github.io/article.html?repositoryOwner=${repositoryOwner}&repositoryName=${repositoryName}&issueNum=${data.number}`
+                    }
+                });
+            }
+            document.getElementById("submit").disabled=false;
+        })
+    </script>
 
 </div>
 </body>

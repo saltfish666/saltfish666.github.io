@@ -9,6 +9,7 @@
 
 
 // 获得最近的 10 个issue
+/*
 let query2 = `{
                   repository(owner: "gitblog666", name: "program") {
                     issues(last:10){
@@ -35,13 +36,13 @@ $.ajax({
 
         var nodes = data.data.repository.issues.nodes
         console.log(nodes)
-        /*
+        /!*
         var blogsListApp = new Vue({
             el:"#blogsList",
             data:{
                 nodes:nodes,
             },
-        })*/
+        })*!/
         var blogsListInnerHTML = ``
         for (let i = 0; i<nodes.length; i++ ){
 
@@ -64,4 +65,4 @@ $.ajax({
         var blogsList = document.getElementById("blogsList")
         blogsList.innerHTML = blogsListInnerHTML
     }
-});
+});*/

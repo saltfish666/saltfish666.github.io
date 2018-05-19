@@ -5,6 +5,7 @@
 
 
 
+/*
 var canSubmit = true
 $("#submit").click(function(){
 
@@ -64,4 +65,4 @@ $("#submit").click(function(){
             }
         });
     }
-})
+})*/
