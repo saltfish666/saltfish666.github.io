@@ -75,6 +75,11 @@
                                            <a href="${data.html_url}" class="ListItem" target="_blank" >${data.login}</a>
                                             <button id="logOut">退出登录</button>`
                     console.log(data)
+                    document.getElementById("logOut").onclick = function () {
+                        localStorage._token = ''
+                        location.reload();
+
+                    }
                 }
             });
 
@@ -82,13 +87,7 @@
 
     </script>
     <script type="text/javascript" src="js/initBlogsList.js"></script>
-<script>
-    document.getElementById("logOut").onclick = function () {
-        localStorage._token = ''
-        location.reload();
 
-    }
-</script>
 
 </body>
 </html>
