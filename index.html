@@ -73,6 +73,7 @@
                     let header = document.getElementById("header")
                     header.innerHTML = `<img src="${data.avatar_url}" class="img-responsive"/>
                                            <a href="${data.html_url}" class="ListItem" target="_blank" >${data.login}</a>
+                                           <a href="./Edit/edit.html" class="ListItem" target="_blank" >写博客</a>
                                             <button id="logOut">退出登录</button>`
                     console.log(data)
                     document.getElementById("logOut").onclick = function () {
