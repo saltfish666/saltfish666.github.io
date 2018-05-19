@@ -31,6 +31,7 @@
         <div class="mypanel">
             <header class="mypanel-title">
                 <h3 id="issueTitle">加载中 </h3>
+                <span id="edit"></span>
             </header>
             <!--<div class="mypanel-author">
                 <h3 class="mypanel-title">查拉图斯</h3>
@@ -84,6 +85,8 @@
     let repositoryOwner = getQueryString("repositoryOwner")
     let repositoryName = getQueryString("repositoryName")
     let issueNum = getQueryString("issueNum")
+
+    document.getElementById("edit").innerHTML = `<a href="Edit/edit.html?issueNum=${issueNum}">修改</a>`
 
     let query2 = `{
                   repository(owner: "${repositoryOwner}", name: "${repositoryName}") {
