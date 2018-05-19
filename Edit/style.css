@@ -12,6 +12,7 @@
     width: 80%;
     height: 400px;
     margin-top: 20px;
+    font-size: 22px;
 }
 #submit{
     display: block;
@@ -21,5 +22,11 @@
     height: 40px;
 }
 #markdownHTML{
-
+    margin: auto;
+    width: 80%;
+    margin-top: 20px;
+    border-width: thin;
+    border-style: solid;
+    border-color: #888888;
+    font-size: 18px;
 }

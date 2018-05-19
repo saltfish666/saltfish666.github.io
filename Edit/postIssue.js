@@ -5,7 +5,7 @@
 
 $("#submit").click(function(){
     let title = document.getElementById("title").value
-    let body  = document.getElementById("body").value
+    let body  = document.getElementById("markdownText").value
     console.log(title)
 
     let access_token = localStorage.token
