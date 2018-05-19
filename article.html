@@ -45,9 +45,9 @@
     </div>
 
 </div>
-
+<script src="/js/static/jquery.js"></script>
 <script>
-    //如果用户处于登录状态，则修改header
+
     if(localStorage._token){
         $.ajax({
             url: "https://api.github.com/user",
@@ -67,7 +67,7 @@
 
 </script>
 
-<script src="/js/static/jquery.js"></script>
+
 <script>
     function getQueryString(name) {
         var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
