@@ -86,7 +86,7 @@
     let repositoryName = getQueryString("repositoryName")
     let issueNum = getQueryString("issueNum")
 
-    document.getElementById("edit").innerHTML = `<a href="Edit/edit.html?issueNum=${issueNum}">修改</a>`
+    document.getElementById("edit").innerHTML = `<a href="Edit/edit.html?repositoryOwner=${repositoryOwner}&repositoryName=${repositoryName}&issueNum=${issueNum}">修改</a>`
 
     let query2 = `{
                   repository(owner: "${repositoryOwner}", name: "${repositoryName}") {

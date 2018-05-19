@@ -70,6 +70,8 @@
     <script>
         //如果issueNum存在，则填写title和body
         if(issueNum) {
+            let repositoryName = getQueryString("repositoryName")
+            let repositoryOwner = getQueryString("repositoryOwner")
             let query = `{
                   repository(owner: "${repositoryOwner}", name: "${repositoryName}") {
                     issue(number: ${issueNum}) {
