@@ -151,9 +151,7 @@
                 "body": commentText
             }) ,
             success:  function (data) {
-                let header = document.getElementById("header")
-                header.innerHTML = `<img src="${data.avatar_url}" class="img-responsive"/>
-                                           <a href="${data.html_url}" class="ListItem" target="_blank" >${data.login}</a>`
+                alert("提交成功")
 
                 location.reload();
                 canPostComment = true
