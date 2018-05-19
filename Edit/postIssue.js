@@ -19,7 +19,7 @@ $("#submit").click(function(){
     let repositoryOwner = "gitblog666"
     let repositoryName = "program"
 
-    let posturl = `/repos/${repository}/${repositoryName}/issues`
+    let posturl = `/repos/${repositoryOwner}/${repositoryName}/issues`
     $.ajax({
         url: base_url+posturl,
         type: 'post',
@@ -32,6 +32,8 @@ $("#submit").click(function(){
         }),
         success:  function (data) {
             //alert("成功发出")
+            document.getElementById("title").value = ''
+            document.getElementById("markdownText").value = ''
             window.location.href=titleLink = `https://saltfish666.github.io/article.html?repositoryOwner=${repositoryOwner}&repositoryName=${repositoryName}&issueNum=${data.number}`
             canSubmit = true
         }
