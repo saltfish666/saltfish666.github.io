@@ -10,7 +10,7 @@
 
 // 获得最近的 10 个issue
 let query2 = `{
-                  repository(owner: "lishuai666777", name: "program") {
+                  repository(owner: "gitblog666", name: "program") {
                     issues(last:10){
                       nodes{
                         title
