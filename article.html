@@ -140,7 +140,7 @@
             return
         }
         canPostComment = false
-        let commentText = document.getElementById("newComments").value
+        let commentText = document.getElementById("newComment").value
         $.ajax({
             url: `https://api.github.com/repos/${repository}/${repositoryName}/issues/${issueNum}/comments`,
             type: 'post',
