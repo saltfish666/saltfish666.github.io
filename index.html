@@ -11,10 +11,10 @@
 	<link rel="stylesheet" href="css/btn.css">
 </head>
 <body>
-    <header >
+    <header id="header">
         <img src="img/if_facebook__social__media_icon_2986194.svg" alt="Amazing line art of a scone" class="img-responsive"/>
         <a href="Login/login.html" class="ListItem" target="_blank" id="login">登录/注册</a>
-        <a href="Edit/edit.html" class="ListItem" target="_blank">发帖</a>
+        <!--<a href="Edit/edit.html" class="ListItem" target="_blank">发帖</a>-->
     </header>
 
 
@@ -67,11 +67,13 @@
                 url: "https://api.github.com/user",
                 type: 'get',
                 data: {
-                    access_token:"d96058014f26cb713b43ff8ee9ebf7d5bf4ebb2c",
+                    access_token:localStorage.token,
                 },
                 success:  function (data) {
-                    let login = document.getElementById("login")
-                    login.innerHTML = data.name
+                    let header = document.getElementById("header")
+                    header.innerHTML = `<img src="${data.avatar_url}" class="img-responsive"/>
+                                           <a href="${data.html_url}" class="ListItem" target="_blank" >${data.login}</a>`
+                    console.log(data)
                 }
             });
 

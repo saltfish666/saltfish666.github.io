@@ -25,6 +25,26 @@
         <button type="submit" class="btn btn-default" id="submit">Submit</button>
         <div  id = "markdownHTML"></div>
 
+    <script>
+        //如果用户处于登录状态，则修改header
+        if(localStorage.token){
+            $.ajax({
+                url: "https://api.github.com/user",
+                type: 'get',
+                data: {
+                    access_token:localStorage.token,
+                },
+                success:  function (data) {
+                    let header = document.getElementById("header")
+                    header.innerHTML = `<img src="${data.avatar_url}" class="img-responsive"/>
+                                           <a href="${data.html_url}" class="ListItem" target="_blank" >${data.login}</a>`
+                    console.log(data)
+                }
+            });
+
+        }
+    </script>
+
     <script src="/js/static/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 

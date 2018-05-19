@@ -23,21 +23,43 @@
     <div class="container" style="margin-left: 0px"><!--for comment container-->
         <div class="mypanel">
             <header class="mypanel-title">
-                <h3 id="issueTitle">用脑过度如何尽快的放松大脑、改善记忆力？ </h3>
+                <h3 id="issueTitle">加载中 </h3>
             </header>
-            <div class="mypanel-author">
+            <!--<div class="mypanel-author">
                 <h3 class="mypanel-title">查拉图斯</h3>
-            </div>
+            </div>-->
             <main class="mypanel-body" id="issueBody">
-                当我们试图记忆陌生的内容时，很容易想当然地认为：投入的精力越多，记忆的效果就越好。然而，间或的休整或许才是你真正所需要的。即几乎什么都不做，只要调暗灯光，坐下来，在宁静的冥想中度过10-15分钟。你会发现，比起你去刻意努力的记忆，这一方法能够让你对刚刚学到的新事物取得更佳的记忆效果。
+                加载中。。。
             </main>
             <div id = "comments">
-
+                还在加载中。。
             </div>
         </div>
     </div>
 
 </div>
+
+<script>
+    //如果用户处于登录状态，则修改header
+    if(localStorage.token){
+        $.ajax({
+            url: "https://api.github.com/user",
+            type: 'get',
+            data: {
+                access_token:localStorage.token,
+            },
+            success:  function (data) {
+                let header = document.getElementById("header")
+                header.innerHTML = `<img src="${data.avatar_url}" class="img-responsive"/>
+                                           <a href="${data.html_url}" class="ListItem" target="_blank" >${data.login}</a>`
+                console.log(data)
+            }
+        });
+
+    }
+
+</script>
+
 <script src="/js/static/jquery.js"></script>
 <script>
     function getQueryString(name) {
