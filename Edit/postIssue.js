@@ -12,7 +12,7 @@ $("#submit").click(function(){
 
     let title = document.getElementById("title").value
     let body  = document.getElementById("markdownText").value
- 
+
     let access_token = localStorage._token
     let base_url = "https://api.github.com"
     let posturl = "/repos/gitblog666/program/issues"
