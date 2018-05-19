@@ -93,7 +93,7 @@
 
                     document.getElementById("title").value = data.data.repository.issue.title
 
-                    document.getElementById("body").value = data.data.repository.issue.body
+                    document.getElementById("markdownText").value = data.data.repository.issue.body
 
                     let commentsHTML = ''
                     for (let i = 0; i < data.data.repository.issue.comments.nodes.length; i++) {
