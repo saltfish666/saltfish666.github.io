@@ -81,10 +81,12 @@
             // issue 的body title
             let issueBodyHTML = data.data.repository.issue.bodyHTML
             console.log(issueBodyHTML)
+            document.getElementById("issueBody").innerHTML = issueBodyHTML
+
             document.getElementById("issueTitle").innerHTML = data.data.repository.issue.title
 
             let commentsHTML = ''
-            for (let i = 0; i<commentsNodes.length; i++ ){
+            for (let i = 0; i<data.data.repository.issue.comments.nodes.length; i++ ){
                 commentsHTML = `<div class="comment">${ data.data.repository.issue.comments.nodes[i].bodyHTML}</div>` + commentsHTML
             }
             var comments = document.getElementById("comments")
