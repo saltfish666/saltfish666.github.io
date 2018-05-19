@@ -87,7 +87,7 @@
 
     let query2 = `{
                   repository(owner: "${repositoryOwner}", name: "${repositoryName}") {
-                    issue(number: 1) {
+                    issue(number: ${issueNum}) {
                       title
                       bodyHTML
                       comments(last: 10) {
