@@ -62,3 +62,12 @@
 	font-family:"Times New Roman", Times, serif;
 }
 
+.mypanel-title{
+  border-style: solid;
+  border-color: #dddddd;
+}
+
+a{
+  text-decoration: none;
+}
+

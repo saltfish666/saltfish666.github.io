@@ -19,48 +19,79 @@
 
 <div class="container">
 
-    <div class="mypanel">
-        <header class="mypanel-title">
-            <h3 >用脑过度如何尽快的放松大脑、改善记忆力？ </h3>
-        </header>
-        <div class="mypanel-author">
-            <h3 class="mypanel-title">查拉图斯</h3>
-        </div>
-        <main class="mypanel-body">
-            当我们试图记忆陌生的内容时，很容易想当然地认为：投入的精力越多，记忆的效果就越好。然而，间或的休整或许才是你真正所需要的。
-            即几乎什么都不做，只要调暗灯光，坐下来，在宁静的冥想中度过10-15分钟。你会发现，比起你去刻意努力的记忆，这一方法能够让你对刚刚学到的新事物取得更佳的记忆效果。
-            当我们试图记忆陌生的内容时，很容易想当然地认为：投入的精力越多，记忆的效果就越好。然而，间或的休整或许才是你真正所需要的。
-            即几乎什么都不做，只要调暗灯光，坐下来，在宁静的冥想中度过10-15分钟。你会发现，比起你去刻意努力的记忆，这一方法能够让你对刚刚学到的新事物取得更佳的记忆效果。
-            当我们试图记忆陌生的内容时，很容易想当然地认为：投入的精力越多，记忆的效果就越好。然而，间或的休整或许才是你真正所需要的。
-            即几乎什么都不做，只要调暗灯光，坐下来，在宁静的冥想中度过10-15分钟。你会发现，比起你去刻意努力的记忆，这一方法能够让你对刚刚学到的新事物取得更佳的记忆效果。
-            当我们试图记忆陌生的内容时，很容易想当然地认为：投入的精力越多，记忆的效果就越好。然而，间或的休整或许才是你真正所需要的。
-            即几乎什么都不做，只要调暗灯光，坐下来，在宁静的冥想中度过10-15分钟。你会发现，比起你去刻意努力的记忆，这一方法能够让你对刚刚学到的新事物取得更佳的记忆效果。
-            当我们试图记忆陌生的内容时，很容易想当然地认为：投入的精力越多，记忆的效果就越好。然而，间或的休整或许才是你真正所需要的。
-            即几乎什么都不做，只要调暗灯光，坐下来，在宁静的冥想中度过10-15分钟。你会发现，比起你去刻意努力的记忆，这一方法能够让你对刚刚学到的新事物取得更佳的记忆效果。
-        </main>
-        <footer>
-            <button class="btn">👍</button>
-        </footer>
-    </div>
 
     <div class="container" style="margin-left: 0px"><!--for comment container-->
         <div class="mypanel">
             <header class="mypanel-title">
-                <h3 >用脑过度如何尽快的放松大脑、改善记忆力？ </h3>
+                <h3 id="issueTitle">用脑过度如何尽快的放松大脑、改善记忆力？ </h3>
             </header>
             <div class="mypanel-author">
                 <h3 class="mypanel-title">查拉图斯</h3>
             </div>
-            <main class="mypanel-body">
+            <main class="mypanel-body" id="issueBody">
                 当我们试图记忆陌生的内容时，很容易想当然地认为：投入的精力越多，记忆的效果就越好。然而，间或的休整或许才是你真正所需要的。即几乎什么都不做，只要调暗灯光，坐下来，在宁静的冥想中度过10-15分钟。你会发现，比起你去刻意努力的记忆，这一方法能够让你对刚刚学到的新事物取得更佳的记忆效果。
             </main>
-            <footer>
-                <button class="btn">👍</button>
-            </footer>
+            <div id = "comments">
+
+            </div>
         </div>
     </div>
 
 </div>
+<script>
+    function getQueryString(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+
+        if (r != null) {
+            return unescape(r[2]);
+        }
+        return null;
+    }
+    let repository = getQueryString("repository")
+    let repositoryName = getQueryString("repositoryName")
+    let issueNum = getQueryString("issueNum")
+
+    let query2 = `{
+                  repository(owner: "${repository}", name: "${repositoryName}") {
+                    issue(number: 1) {
+                      title
+                      bodyHTML
+                      comments(last: 10) {
+                        nodes {
+                          bodyHTML
+                        }
+                      }
+                    }
+                  }
+                }`
+
+    $.ajax({
+        url: "https://api.github.com/graphql",
+        type: 'post',
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Authorization","token " + localStorage.token);
+        },
+        data: JSON.stringify({
+            query: query2
+        }) ,
+        success:  function (data) {
+
+            // issue 的body title
+            let issueBodyHTML = data.data.repository.issue.bodyHTML
+            console.log(issueBodyHTML)
+            document.getElementById("issueTitle").innerHTML = data.data.repository.issue.title
+
+            let commentsHTML = ''
+            for (let i = 0; i<commentsNodes.length; i++ ){
+                commentsHTML = `<div class="comment">${ data.data.repository.issue.comments.nodes[i].bodyHTML}</div>` + commentsHTML
+            }
+            var comments = document.getElementById("comments")
+            comments.innerHTML = commentsHTML
+        }
+    });
+
+</script>
 
 </body>
 </html>

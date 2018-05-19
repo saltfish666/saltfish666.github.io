@@ -2,8 +2,14 @@
 * POST /repos/:owner/:repo/issues
 *
 * */
-
+var canSubmit = true
 $("#submit").click(function(){
+
+    if(canSubmit == false){
+        return
+    }
+    canSubmit = false
+
     let title = document.getElementById("title").value
     let body  = document.getElementById("markdownText").value
     console.log(title)
@@ -27,7 +33,8 @@ $("#submit").click(function(){
             body:body,
         }),
         success:  function (data) {
-            console.log("ok")
+            alert("成功发出")
+            canSubmit = true
         }
     });
 })
