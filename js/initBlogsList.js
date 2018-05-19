@@ -48,7 +48,7 @@ $.ajax({
             titleLink = `https://saltfish666.github.io/article.html?repository=gitblog666&repositoryName=program&issueNum=${nodes[i].number}`
             blogsListInnerHTML = `<div class="mypanel" v-for="node in nodes">
                                      <header class="mypanel-title">
-                                        <a href="${titleLink}"></a><h3 >${nodes[i].title} </h3></a>
+                                        <a href="${titleLink}"><h3 >${nodes[i].title} </h3></a>
                                      </header>
                                      <!--<div class="mypanel-author">
                                         <h3 class="mypanel-title">查拉图斯</h3>
