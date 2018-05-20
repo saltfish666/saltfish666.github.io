@@ -52,7 +52,7 @@
         }
         initConf(conf)
     </script>
-    <script src="/js/static/jquery.js"></script>
+    <!--<script src="/js/static/jquery.js"></script>-->
     <script>
         /*
         * https://www.jianshu.com/p/073f79c5e438
@@ -68,8 +68,10 @@
             return null;
         }
         let token = getQueryString("token")
-        if(token == undefined && localStorage._token == undefined){
+        if( !token && !localStorage._token){
             //说明用户是直接访问首页并且之前没有登陆过
+            alert("你必须登录后才能使用GitHubAPI")
+            window.location.href = "https://saltfish666.github.io/Login/login.html"
         }else if(token) {
             //如果token有值，说明用户是用GitHub登录后重定向到首页的
             //将token存储在localStorage方便其他页面使用
